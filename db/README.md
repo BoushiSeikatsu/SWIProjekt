@@ -1,0 +1,1 @@
+Open in https://dbdiagram.io/
