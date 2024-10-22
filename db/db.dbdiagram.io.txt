@@ -1,70 +1,71 @@
-
-Table Storage {
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+Table storages {
   id integer [primary key]
   name varchar
 }
 
-Table Manufacturer {
+Table manufacturers {
   id integer [primary key]
-  number integer
   name varchar
 }
 
-Table Product {
+Table products {
   id integer [primary key]
-  manufacturer_id integer
-  name varchar
+  description varchar
   xdim integer
   ydim integer
   zdim integer
-  
-}
+  batch varchar
+  unit varchar
+  manufacturer_id varchar
+  manufacturer integer
+ }
 
-Table ProductStore {
+Table stores {
   id integer [primary key]
-  name varchar
   amount integer
-  storages integer
-  tile integer
+  storage integer
+  product integer
 }
 
-
-Table StorageChange {
+Table added {
   id integer [primary key]
-  user integer
-  tile integer
+  product integer
   storage integer
   date datetime
   amount integer
-  job integer
+  user integer
 }
 
-Table Job {
+Table removed {
   id integer [primary key]
-  name varchar
+  product integer
+  storage integer
+  date datetime
+  amount integer
+  note varchar
+  user integer
 }
 
-Table User {
+Table users {
   id integer [primary key]
   username varchar
-  pwdhash varchar
+  password varchar
   admin bool
+  active bool
 }
 
+Ref: products.manufacturer > manufacturers.id
 
+Ref: stores.storage > storages.id
+Ref: stores.product > products.id
 
+Ref: added.product > products.id
+Ref: added.storage > storages.id
 
-Ref: Product.manufacturer_id > Manufacturer.id
-
-Ref: ProductStore.storages > Storage.id
-Ref: ProductStore.tile > Product.id
-
-Ref: StorageChange.user > User.id
-Ref: StorageChange.tile > Product.id
-Ref: StorageChange.storage > Storage.id
-Ref: StorageChange.job > Job.id
-
-
-Ref: removed.tile > tiles.id
+Ref: removed.product > products.id
 Ref: removed.storage > storages.id
-Ref: removed.job > jobs.id
+
+Ref: removed.user > users.id
+Ref: added.user > users.id
