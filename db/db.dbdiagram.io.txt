@@ -1,46 +1,37 @@
-// Use DBML to define your database structure
-// Docs: https://dbml.dbdiagram.io/docs
-Table storages {
+
+Table Storage {
   id integer [primary key]
   name varchar
 }
 
-Table manufacturers {
+Table Manufacturer {
   id integer [primary key]
+  number integer
   name varchar
 }
 
-Table tiles {
+Table Product {
   id integer [primary key]
+  manufacturer_id integer
   name varchar
   xdim integer
   ydim integer
-  manufacturer integer
-  photo integer [Note: "ID of photo/link to bucket"]
+  zdim integer
+  
 }
 
-Table stores {
-  id integer [primary key]
-  amount integer
-  place integer
-  tile integer
-}
-
-Table added {
-  id integer [primary key]
-  tile integer
-  storage integer
-  date datetime
-  amount integer
-}
-
-Table jobs {
+Table ProductStore {
   id integer [primary key]
   name varchar
+  amount integer
+  storages integer
+  tile integer
 }
 
-Table removed {
+
+Table StorageChange {
   id integer [primary key]
+  user integer
   tile integer
   storage integer
   date datetime
@@ -48,13 +39,31 @@ Table removed {
   job integer
 }
 
-Ref: tiles.manufacturer > manufacturers.id
+Table Job {
+  id integer [primary key]
+  name varchar
+}
 
-Ref: stores.place > storages.id
-Ref: stores.tile > tiles.id
+Table User {
+  id integer [primary key]
+  username varchar
+  pwdhash varchar
+  admin bool
+}
 
-Ref: added.tile > tiles.id
-Ref: added.storage > storages.id
+
+
+
+Ref: Product.manufacturer_id > Manufacturer.id
+
+Ref: ProductStore.storages > Storage.id
+Ref: ProductStore.tile > Product.id
+
+Ref: StorageChange.user > User.id
+Ref: StorageChange.tile > Product.id
+Ref: StorageChange.storage > Storage.id
+Ref: StorageChange.job > Job.id
+
 
 Ref: removed.tile > tiles.id
 Ref: removed.storage > storages.id
