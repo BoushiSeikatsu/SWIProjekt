@@ -36,4 +36,7 @@ jobs:
         run: go mod tidy
 
       - name: Run Tests
-        run: go test ./... -v
+        run: go test ./... -v -coverprofile=coverage.out
+
+      - name: Print Coverage
+        run: go tool cover -func=coverage.out | tail -n 1
