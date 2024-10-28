@@ -39,4 +39,4 @@ jobs:
         run: go test ./... -v -coverprofile=coverage.out
 
       - name: Print Coverage
-        run: go tool cover -func=coverage.out | tail -n 1
+        run: go tool cover -func=coverage.out
