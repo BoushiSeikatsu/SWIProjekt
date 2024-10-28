@@ -1,12 +1,16 @@
-name: Go Test
+name: Test workflow
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'backend/**'
   pull_request:
     branches:
       - main
+    paths:
+      - 'backend/**'
 
 jobs:
   test:
@@ -35,10 +39,6 @@ jobs:
       - name: Install Dependencies
         working-directory: ./backend
         run: go mod tidy
-
-      - name: Build
-        working-directory: ./backend
-        run: go build -v ./...
 
       - name: Run Tests
         working-directory: ./backend
