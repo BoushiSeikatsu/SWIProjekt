@@ -1,0 +1,15 @@
+##### 5. Nasazení a retrospektiva:
+    - nasazení po každém sprintu se provádí v hodinách s nejnižším vytížením serveru podle předchozích zkušeností z předchozích dne
+    - deployment se provádí aktualizaci release docker image
+        - tato aktualizace se spouští automaticky pomocí CD při každém mergi do masteru
+        - každý merge musí projít automatickými testy
+    - stáhnutí, aktualizace, a restart provadí automaticky watchtower
+    - monitorace produkčního prostředí za pomocí uptime checkeru a a kontrola odezvy
+    - rollback v případě problému se skládá z:
+        - rollback release docker image na předchozí verzi
+        - automatický update produčního prostředí
+    - databáze se zálohuje na cloud každý den automatickým skriptem v nejnižším vytížení serveru
+        - rollback databáze je řešen zpuštěním skriptu, který mi dovolí vybrat verzi datbáze dle dne, na kterou se chci vrátit
+    - po každém sprintu se uskuteční meeting, kde každý zhodnotí co při sprintu měl udělat, reálně udělal, kde narazil na problém a jaké má poznatky, které ho mohly napadnout v průběhu sprintu
+        - feedback zákazníka se řeší poté na dalším meetingu, až si zákazník měl šanci vyzkoušet update
+            - na základě tohoto feedbacku se poté upraví momentální sprint
