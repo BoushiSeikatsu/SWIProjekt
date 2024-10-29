@@ -9,6 +9,7 @@
         body, html {
             height: 100%;
             margin: 0;
+            overflow: hidden;
         }
         .navbar {
             position: fixed;
@@ -40,7 +41,7 @@
             padding-top: 78px;
         }
         .setup-container {
-            height: 100%;
+            height: calc(100% + 78px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -64,16 +65,16 @@
     <nav class="navbar navbar-light">
         <div class="container-fluid justify-content-end">
             <a class="nav-link" href="#">Search<br>Products</a>
-            <a class="nav-link" href="#">Supply<br>Product</a>
-            <a class="nav-link" href="#">Withdraw <br>Product</a>
-            <a class="nav-link" href="#">Change<br>Password</a>
+            <a class="nav-link" href="SelectSupplyManufacturer.html">Supply<br>Product</a>
+            <a class="nav-link" href="SelectWithdrawManufacturer.html">Withdraw <br>Product</a>
+            <a class="nav-link" href="ChangePassword.html">Change<br>Password</a>
         </div>
     </nav>
 
     <div class="container setup-container">
         <div class="setup-form">
             <h2 class="text-center mb-4">Select Supply Manufacturer</h2>
-            <form>
+            <form action="SupplyProduct.html" method="POST">
                 <div class="mb-3">
                     <label for="manufacturerSelect" class="form-label">Select Manufacturer</label>
                     <select class="form-select" id="manufacturerSelect" required>

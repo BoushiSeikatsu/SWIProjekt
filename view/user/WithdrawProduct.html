@@ -10,6 +10,7 @@
         body, html {
             height: 100%;
             margin: 0;
+            overflow: hidden;
         }
         .navbar {
             position: fixed;
@@ -41,7 +42,7 @@
             padding-top: 78px;
         }
         .setup-container {
-            height: 100%;
+            height: calc(100% + 78px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -70,16 +71,16 @@
     <nav class="navbar navbar-light">
         <div class="container-fluid justify-content-end">
             <a class="nav-link" href="#">Search<br>Products</a>
-            <a class="nav-link" href="#">Supply<br>Product</a>
-            <a class="nav-link" href="#">Withdraw <br>Product</a>
-            <a class="nav-link" href="#">Change<br>Password</a>
+            <a class="nav-link" href="SelectSupplyManufacturer.html">Supply<br>Product</a>
+            <a class="nav-link" href="SelectWithdrawManufacturer.html">Withdraw <br>Product</a>
+            <a class="nav-link" href="ChangePassword.html">Change<br>Password</a>
         </div>
     </nav>
 
     <div class="container setup-container">
         <div class="setup-form">
             <div class="d-flex align-items-center mb-4">
-                <a href="#" class="back-arrow position-absolute"><i class="bi bi-arrow-left-circle"></i></a>
+                <a href="SelectWithdrawManufacturer.html" class="back-arrow position-absolute"><i class="bi bi-arrow-left-circle"></i></a>
                 <h2 class="text-center w-100">Withdraw Product</h2>
             </div>
             <form>
@@ -115,6 +116,11 @@
                         <input type="number" class="form-control" id="amount" min="0" step="1" value="0" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
                     <div class="error-text">Optional amount error</div>
+                </div>
+                <div class="mb-3">
+                    <label for="note" class="form-label">Note</label>
+                    <textarea class="form-control" id="note" rows="3" placeholder="Add Notes..."></textarea>
+                    <div class="error-text">Optional note error</div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Withdraw</button>
             </form>

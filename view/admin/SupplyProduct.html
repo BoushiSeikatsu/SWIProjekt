@@ -10,6 +10,7 @@
         body, html {
             height: 100%;
             margin: 0;
+            overflow: hidden;
         }
         .navbar {
             position: fixed;
@@ -82,7 +83,7 @@
             border-radius: 5px;
         }
         .setup-container {
-            height: 100%;
+            height: calc(100% + 78px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -112,13 +113,20 @@
         <div class="container-fluid justify-between">
             <i class="bi bi-shield-lock navbar-icon"></i>
             <div class="d-flex justify-content-end position-relative">
-                <a class="nav-link" href="#">Supply<br>Product</a>
-                <a class="nav-link" href="#">Withdraw <br>Product</a>
+                <a class="nav-link" href="SelectSupplyManufacturer.html">Supply<br>Product</a>
+                <a class="nav-link" href="SelectWithdrawManufacturer.html">Withdraw <br>Product</a>
                 <div class="nav-link" onclick="toggleSubmenu('submenu-manufacturers')">Manage<br>Manufacturers
                     <div class="submenu" id="submenu-manufacturers">
-                        <a href="#">Add</a>
-                        <a href="#">Rename</a>
-                        <a href="#">Remove</a>
+                        <a href="AddManufacturer.html">Add</a>
+                        <a href="RenameManufacturer.html">Rename</a>
+                        <a href="RemoveManufacturer.html">Remove</a>
+                    </div>
+                </div>
+                <div class="nav-link" onclick="toggleSubmenu('submenu-storages')">Manage<br>Storages
+                    <div class="submenu" id="submenu-storages">
+                        <a href="AddStorage.html">Add</a>
+                        <a href="RenameStorage.html">Rename</a>
+                        <a href="RemoveStorage.html">Remove</a>
                     </div>
                 </div>
                 <div class="nav-link" onclick="toggleSubmenu('submenu-products')">Manage<br>Products
@@ -129,10 +137,10 @@
                 </div>
                 <div class="nav-link" onclick="toggleSubmenu('submenu-users')">Manage<br>Users
                     <div class="submenu" id="submenu-users">
-                        <a href="#">Add</a>
-                        <a href="#">Change Password</a>
-                        <a href="#">Disable</a>
-                        <a href="#">Enable</a>
+                        <a href="AddUser.html">Add</a>
+                        <a href="ChangePassword.html">Change Password</a>
+                        <a href="DisableUser.html">Disable</a>
+                        <a href="EnableUser.html">Enable</a>
                     </div>
                 </div>
             </div>
@@ -142,7 +150,7 @@
     <div class="container setup-container">
         <div class="setup-form">
             <div class="d-flex align-items-center mb-4">
-                <a href="#" class="back-arrow position-absolute"><i class="bi bi-arrow-left-circle"></i></a>
+                <a href="SelectSupplyManufacturer.html" class="back-arrow position-absolute"><i class="bi bi-arrow-left-circle"></i></a>
                 <h2 class="text-center w-100">Supply Product</h2>
             </div>
             <form>
