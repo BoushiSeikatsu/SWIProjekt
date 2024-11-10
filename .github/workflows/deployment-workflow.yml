@@ -17,6 +17,9 @@ jobs:
       version: ${{ steps.increment_version.outputs.NEW_VERSION }}
 
     steps:
+      - name: printenv
+        run: printenv
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -49,6 +52,7 @@ jobs:
   deploy:
     name: Deploy a new release
     runs-on: ubuntu-latest
+    needs: [tag]
     steps:
       - name: Echo version
         run: echo "${{ env.VERSION }}"
