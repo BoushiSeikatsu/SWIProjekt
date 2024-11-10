@@ -1,0 +1,59 @@
+name: Deployment Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - feautre/us-e13-deployment
+    # paths:
+    #   - 'Dockerfile'
+    #   - 'backend/**'
+
+jobs:
+  tag:
+    name: Tag a new release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.increment_version.outputs.NEW_VERSION }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Fetch all tags
+        run: git fetch --tags
+      
+      - name: Get current version
+        id: old_version
+        run: |
+          VERSION=$(git describe --tags --abbrev=0 || echo "0.0.0")
+          echo "Current version: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Increment version
+        id: new_version
+        run: |
+          VERSION="${{ steps.old_version.outputs.version }}"
+          IFS='.' read -r major minor patch <<< "$VERSION"
+          patch=$((patch + 1))
+          NEW_VERSION="$major.$minor.$patch"
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
+      
+      - name: Create new tag
+        run: |
+          git tag ${{ steps.new_version.outputs.version }}
+          git push origin ${{ env.NEW_VERSION }}
+
+  deploy:
+    name: Deploy a new release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo version
+        run: echo "${{ env.VERSION }}"
+      # - name: Build dokcer image
+      #   uses: ./.github/workflows/reusable-build.yml
+      #   with:
+      #     tag: ${{ env.VERSION }}
+      #     push: false

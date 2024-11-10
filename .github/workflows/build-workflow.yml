@@ -1,12 +1,6 @@
 name: Build Workflow
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'Dockerfile'
-      - 'backend/**'
   pull_request:
     branches:
       - main
@@ -20,17 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+      - name: Build dokcer image
+        uses: ./.github/workflows/reusable-build.yml
         with:
-          context: .
+          tag: ${{ env.NEW_VERSION }}
           push: false
-          tags: |
-            ghcr.io/boushiseikatsu/swiprojekt:latest
-            ghcr.io/boushiseikatsu/swiprojekt:${{ github.sha }}
