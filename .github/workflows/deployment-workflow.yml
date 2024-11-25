@@ -25,8 +25,8 @@ jobs:
 
       - name: Configure git
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+          git config --global user.name "Ratmir Gaitov"
+          git config --global user.email "gaitovrat@gmail.com"
       
       - name: Configure remote
         run: git remote set-url origin https://x-access-token:${{ secrets.REGISTRY_TOKEN }}@github.com/${{ github.repository }}.git
@@ -44,19 +44,36 @@ jobs:
       - name: Increment version
         id: new_version
         run: |
-          VERSION="${{ steps.old_version.outputs.version }}"
-          IFS='.' read -r major minor patch <<< "$VERSION"
-          patch=$((patch + 1))
-          NEW_VERSION="$major.$minor.$patch"
+          BRANCH=${{ github.ref_name }}
+          echo "Branch: $BRANCH"
+
+          if [ "$BRANCH" = "main" ]; then
+            VERSION=$(git describe --tags --abbrev=0 || echo "0.0.0")
+            IFS='.' read -r major minor patch <<< "$VERSION"
+            patch=$((patch + 1))
+            NEW_VERSION="$major.$minor.$patch"
+          else
+            SHA_TAG=$(git rev-parse --short HEAD)
+            EXISTING_TAGS=$(git tag | grep -E "^$SHA_TAG[.][0-9]+$" || echo '')
+
+            if [ -n "$EXISTING_TAGS" ]; then
+              COUNTER=$(echo "$EXISTING_TAGS" | grep -oE '[.][0-9]+$' | sed 's/\.//' | sort -n | tail -1)
+              COUNTER=$((COUNTER + 1))
+              NEW_VERSION="$SHA_TAG.$COUNTER"
+            else
+              echo "No matching tags found. Setting default suffix to .0"
+              NEW_VERSION="$SHA_TAG.0"
+            fi
+          fi
+
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "VERSION=$NEW_VERSION" >> $GITHUB_ENV
       
       - name: Create new tag
         run: |
           echo ${{ github.repository }}
           git tag ${{ steps.new_version.outputs.version }}
-          # git push origin ${{ env.NEW_VERSION }}
+          git push origin ${{ env.NEW_VERSION }}
 
   deploy:
     name: Deploy a new release
