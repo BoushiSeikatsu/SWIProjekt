@@ -23,6 +23,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Configure git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+      
+      - name: Configure remote
+        run: git remote set-url origin https://x-access-token:${{ secrets.REGISTRY_TOKEN }}@github.com/${{ github.repository }}.git
+
       - name: Fetch all tags
         run: git fetch --tags
       
@@ -46,8 +54,9 @@ jobs:
       
       - name: Create new tag
         run: |
+          echo ${{ github.repository }}
           git tag ${{ steps.new_version.outputs.version }}
-          git push origin ${{ env.NEW_VERSION }}
+          # git push origin ${{ env.NEW_VERSION }}
 
   deploy:
     name: Deploy a new release
