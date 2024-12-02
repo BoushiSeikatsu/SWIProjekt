@@ -25,10 +25,13 @@ jobs:
     steps:
       - name: Creating deploy_key
         run: |
-          echo "Creating deploy key"
           echo "${VM_SSH_KEY}" >> deploy_key
-          echo "chmod deploy_key"
           chmod 400 deploy_key
+
+      - name: Add VM to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H $VM_HOST >> ~/.ssh/known_hosts
 
       - name: Deploy to VM
         run: |
