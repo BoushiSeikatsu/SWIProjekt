@@ -43,6 +43,10 @@ func main() {
 
     admin := r.Group("/admin")
     {
+        admin.GET("/", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templates.AdminAddUser())
+        })
+
         // User thingies
         admin.GET("/addUser", controllers.AdminMiddleware(), func (c *gin.Context) {
             c.HTML(http.StatusOK, "", templates.AdminAddUser())
@@ -65,7 +69,36 @@ func main() {
         admin.POST("/enableUser", controllers.AdminMiddleware(), controllers.EnableUser)
         
         // Storage thingies
-        
+        admin.GET("/addStorage", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templates.AdminAddStorage())
+        })
+        admin.POST("/addStorage", controllers.AdminMiddleware(), controllers.AddStorage)
+
+        admin.GET("/renameStorage", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templates.AdminRenameStorage(controllers.AllStorages()))
+        })
+        admin.POST("/renameStorage", controllers.AdminMiddleware(), controllers.RenameStorage)
+
+        admin.GET("/removeStorage", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templates.AdminRemoveStorage(controllers.AllStorages()))
+        })
+        admin.POST("/removeStorage", controllers.AdminMiddleware(), controllers.RemoveStorage)
+
+        // Manufacturer thingies
+        admin.GET("/addManufacturer", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templates.AdminAddManufacturer())
+        })
+        admin.POST("/addManufacturer", controllers.AdminMiddleware(), controllers.AddManufacturer)
+
+        admin.GET("/renameManufacturer", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templates.AdminRenameManufacturer(controllers.AllManufacturers()))
+        })
+        admin.POST("/renameManufacturer", controllers.AdminMiddleware(), controllers.RenameManufacturer)
+
+        admin.GET("/removeManufacturer", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templates.AdminRemoveManufacturer(controllers.AllManufacturers()))
+        })
+        admin.POST("/removeManufacturer", controllers.AdminMiddleware(), controllers.RemoveManufacturer)
     }
 
 	r.Run(initializers.IP + ":" + initializers.PORT)

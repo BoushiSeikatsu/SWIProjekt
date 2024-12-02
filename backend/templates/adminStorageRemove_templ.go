@@ -39,7 +39,7 @@ func AdminRemoveStorage(storages []models.Storage) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container remove-storage-container\"><div class=\"remove-storage-form\"><h2 class=\"text-center mb-4\">Remove Storage</h2><form><div class=\"mb-3\"><label for=\"storageSelect\" class=\"form-label\">Select Storage</label> <select class=\"form-select\" id=\"storageSelect\" required><option value=\"\" disabled selected>Select Storage</option> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container remove-storage-container\"><div class=\"remove-storage-form\"><h2 class=\"text-center mb-4\">Remove Storage</h2><form method=\"post\"><div class=\"mb-3\"><label for=\"storageSelect\" class=\"form-label\">Select Storage</label> <select class=\"form-select\" id=\"storageSelect\" name=\"storageSelect\" required><option value=\"\" disabled selected>Select Storage</option> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
