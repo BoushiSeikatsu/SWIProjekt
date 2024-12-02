@@ -4,10 +4,16 @@ on:
   push:
     branches:
       - main
-      - feautre/us-e13-deployment
-    # paths:
-    #   - 'Dockerfile'
-    #   - 'backend/**'
+    paths:
+      - 'Dockerfile'
+      - 'backend/**'
+      - '.github/**'
+    workflow_dispatch:
+      inputs:
+        commit_sha:
+          description: "Specify a commit SHA to deploy"
+          required: false
+          default: ""
 
 env:
   VM_HOST: "141.147.38.161"
@@ -35,12 +41,23 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H $VM_HOST >> ~/.ssh/known_hosts
       
-      - name: Checkout current commit
+      - name: Determine commit
+        id: determine_sha
+        run: |
+          if [ "${{ github.event.inputs.commit_sha }}" != "" ]; then
+            echo "Using specified commit SHA: ${{ github.event.inputs.commit_sha }}"
+            echo "commit_sha=${{ github.event.inputs.commit_sha }}" >> $GITHUB_OUTPUT
+          else
+            echo "Using default commit SHA: ${{ github.sha }}"
+            echo "commit_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout SHA
         run: |
           ssh -i deploy_key $VM_USER@$VM_HOST << EOF
             cd ${PROJECT_PATH}
             git fetch --all
-            git checkout ${{ github.sha }}
+            git checkout ${{ steps.determine_sha.outputs.commit_sha }}
           EOF
 
       - name: Build container
