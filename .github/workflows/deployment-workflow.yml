@@ -14,6 +14,7 @@ env:
   VM_USER: "ubuntu"
   VM_SSH_KEY: ${{ secrets.PRIVATE_KEY }}
   PROJECT_PATH: "/home/ubuntu/swi/SWIProjekt"
+  DB_PATH: "/home/ubuntu/swi/db"
   APP_NAME: "swiapp"
 
 jobs:
@@ -52,7 +53,11 @@ jobs:
       - name: Deploy to VM
         run: |
           ssh -i deploy_key $VM_USER@$VM_HOST << EOF
+            mkdir -p ${DB_PATH}
             docker stop ${APP_NAME} || true
             docker rm ${APP_NAME} || true
-            docker run -d --name ${APP_NAME} -p 8081:8083 ${APP_NAME}:${{ github.sha }}
+            docker run -d \
+              --name ${APP_NAME} \
+              -p 8081:8083 ${APP_NAME}:${{ github.sha }} \
+              -v ${DB_PATH}:/app/db
           EOF
