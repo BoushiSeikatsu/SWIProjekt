@@ -33,6 +33,14 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H $VM_HOST >> ~/.ssh/known_hosts
+      
+      - name: Checkout current commit
+        run: |
+          ssh -i deploy_key $VM_USER@$VM_HOST << EOF
+            cd ${PROJECT_PATH}
+            git fetch --all
+            git checkout ${{ github.sha }}
+          EOF
 
       - name: Build container
         run: |
