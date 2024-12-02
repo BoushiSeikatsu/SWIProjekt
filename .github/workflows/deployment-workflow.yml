@@ -9,41 +9,29 @@ on:
     #   - 'Dockerfile'
     #   - 'backend/**'
 
+env:
+  VM_HOST: "141.147.38.161"
+  VM_USER: "ubuntu"
+  VM_SSH_KEY: ${{ secrets.PRIVATE_KEY }}
+  PROJECT_PATH: "/home/ubuntu/swi/SWIProjekt"
+
 jobs:
   deploy:
-    name: Tag a new release
+    name: Deploy
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.increment_version.outputs.NEW_VERSION }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: false
-          tags: |
-            swiproject:${{ github.sha }}
-      
-      - name: Deploy to VM
-        env:
-          VM_HOST: "141.147.38.161"
-          VM_USER: "ubuntu"
-          VM_SSH_KEY: ${{ secrets.PRIVATE_KEY }}
-          PROJECT_PATH: "/home/ubuntu/swi/SWIProjekt"
+      - name: Creating deploy_key
         run: |
+          echo "Creating deploy key"
           echo "${VM_SSH_KEY}" >> deploy_key
+          echo "chmod deploy_key"
           chmod 400 deploy_key
 
+      - name: Deploy to VM
+        run: |
           ssh -i deploy_key $VM_USER@$VM_HOST << EOF
             ls -l ${PROJECT_PATH}
           EOF
