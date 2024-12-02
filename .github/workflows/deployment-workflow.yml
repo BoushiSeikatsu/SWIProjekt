@@ -53,4 +53,5 @@ jobs:
         run: |
           ssh -i deploy_key $VM_USER@$VM_HOST << EOF
             docker stop ${APP_NAME} || true
+            docker run -d --name ${APP_NAME} -p 8081:8083 ${APP_NAME}:${{ github.sha }}
           EOF
