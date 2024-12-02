@@ -58,6 +58,7 @@ jobs:
             docker rm ${APP_NAME} || true
             docker run -d \
               --name ${APP_NAME} \
-              -p 8081:8083 ${APP_NAME}:${{ github.sha }} \
-              -v ${DB_PATH}:/app/db
+              -p 8081:8083 \
+              -v ${DB_PATH}:/app/db \
+              ${APP_NAME}:${{ github.sha }}
           EOF
