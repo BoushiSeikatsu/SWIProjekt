@@ -1,0 +1,41 @@
+package templates
+
+templ AdminNav() {
+        <nav class="navbar navbar-light">
+            <div class="container-fluid justify-between">
+                <i class="bi bi-shield-lock navbar-icon"></i>
+                <div class="d-flex justify-content-end position-relative">
+                    <a class="nav-link" href="/admin/selectSupplyManufacturer">Supply<br>Product</a>
+                    <a class="nav-link" href="/admin/selectWithdrawManufacturer">Withdraw <br>Product</a>
+                    <div class="nav-link" onclick="toggleSubmenu('submenu-manufacturers')">Manage<br>Manufacturers
+                        <div class="submenu" id="submenu-manufacturers">
+                            <a href="/admin/addManufacturer">Add</a>
+                            <a href="/admin/renameManufacturer">Rename</a>
+                            <a href="/admin/removeManufacturer">Remove</a>
+                        </div>
+                    </div>
+                    <div class="nav-link" onclick="toggleSubmenu('submenu-storages')">Manage<br>Storages
+                        <div class="submenu" id="submenu-storages">
+                            <a href="/admin/addStorage">Add</a>
+                            <a href="/admin/renameStorage">Rename</a>
+                            <a href="/admin/removeStorage">Remove</a>
+                        </div>
+                    </div>
+                    <div class="nav-link" onclick="toggleSubmenu('submenu-products')">Manage<br>Products
+                        <div class="submenu" id="submenu-products">
+                            <a href="/admin/searchProducts">Search</a>
+                            <a href="/admin/productHistory">History</a>
+                        </div>
+                    </div>
+                    <div class="nav-link" onclick="toggleSubmenu('submenu-users')">Manage<br>Users
+                        <div class="submenu" id="submenu-users">
+                            <a href="/admin/addUser">Add</a>
+                            <a href="/admin/changePassword">Change Password</a>
+                            <a href="/admin/disableUser">Disable</a>
+                            <a href="/admin/enableUser">Enable</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+}

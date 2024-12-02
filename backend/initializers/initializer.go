@@ -3,54 +3,53 @@ package initializers
 import (
 	"log"
 	"os"
+	"swi-warehouse/models"
 
-	"github.com/BoushiSeikatsu/SWIProjekt/models"
 	"gopkg.in/yaml.v3"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
-
-type Configuration struct {
-	Port string `json:"port"`
-	IP  string `json:"ip"`
-	Adminpass string `json:"adminpass"`
-	Secret string `json:"secret"`
-}
-
-var Config Configuration = Configuration{
-	Port: "8080",
-	IP: "localhost",
-	Adminpass: "admin123",
-	Secret: "123",
-}
+var PORT string
+var IP string
+var DBName string
+var SECRET string
 
 func ConnectToDB() {
-	db, err := gorm.Open(sqlite.Open("warehouse.db"), &gorm.Config{})
-
+	db, err := gorm.Open(sqlite.Open(DBName), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Failed to load DB")
-		return
+		log.Fatal(err)
 	}
 
 	DB = db
 
-	DB.AutoMigrate(&models.Product{}, &models.Storage{}, &models.Store{}, &models.Icoming{}, &models.Distribution{})
+	DB.AutoMigrate(&models.User{}, &models.Product{}, &models.Manufacturer{}, &models.Added{}, &models.Removed{}, &models.Storage{}, &models.Stores{})
+}
+
+type Configuration struct {
+	Port     string `json:"port"`
+	IP	 	string `json:"ip"`
+	DB      string `json:"db"`
+	SECRET string `json:"secret"`
 }
 
 func Load() {
 	file, err := os.ReadFile("config.yaml")
 	if err != nil {
-		log.Fatal("Failed to load config file")
-		return
+		log.Fatal("Failed to open config file")
 	}
 
-	err = yaml.Unmarshal(file, &Config)
+	configuration := Configuration{
+		DB: "register.db",
+	}
+	err = yaml.Unmarshal(file, &configuration)
 	if err != nil {
-		log.Fatal("Failed to parse config file")
-		return
+		log.Fatal("Failed to read yaml file")
 	}
 
-	log.Println("Config loaded")
+	PORT = configuration.Port
+	IP = configuration.IP
+	DBName = configuration.DB
+	SECRET = configuration.SECRET
 }
