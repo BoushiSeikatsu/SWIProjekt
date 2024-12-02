@@ -14,6 +14,7 @@ env:
   VM_USER: "ubuntu"
   VM_SSH_KEY: ${{ secrets.PRIVATE_KEY }}
   PROJECT_PATH: "/home/ubuntu/swi/SWIProjekt"
+  APP_NAME: "swiapp"
 
 jobs:
   deploy:
@@ -33,8 +34,15 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H $VM_HOST >> ~/.ssh/known_hosts
 
+      - name: Build container
+        run: |
+          ssh -i deploy_key $VM_USER@$VM_HOST << EOF
+            cd ${PROJECT_PATH}
+            docker build -t ${APP_NAME}:${{ github.sha }} .
+          EOF
+
       - name: Deploy to VM
         run: |
           ssh -i deploy_key $VM_USER@$VM_HOST << EOF
-            ls -l ${PROJECT_PATH}
+            docker stop ${APP_NAME} || true
           EOF
