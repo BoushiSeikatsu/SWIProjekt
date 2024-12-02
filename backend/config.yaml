@@ -1,4 +1,4 @@
 port: 8083
-ip: "localhost"
+ip: "0.0.0.0"
 adminpass: "admin123"
 secret: "secret123"

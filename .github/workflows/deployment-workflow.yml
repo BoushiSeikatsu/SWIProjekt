@@ -1,0 +1,81 @@
+name: Deployment Workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Dockerfile'
+      - 'backend/**'
+      - '.github/**'
+    workflow_dispatch:
+      inputs:
+        commit_sha:
+          description: "Specify a commit SHA to deploy"
+          required: false
+          default: ""
+
+env:
+  VM_HOST: "141.147.38.161"
+  VM_USER: "ubuntu"
+  VM_SSH_KEY: ${{ secrets.PRIVATE_KEY }}
+  PROJECT_PATH: "/home/ubuntu/swi/SWIProjekt"
+  DB_PATH: "/home/ubuntu/swi/db"
+  APP_NAME: "swiapp"
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.increment_version.outputs.NEW_VERSION }}
+
+    steps:
+      - name: Creating deploy_key
+        run: |
+          echo "${VM_SSH_KEY}" >> deploy_key
+          chmod 400 deploy_key
+
+      - name: Add VM to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H $VM_HOST >> ~/.ssh/known_hosts
+      
+      - name: Determine commit
+        id: determine_sha
+        run: |
+          if [ "${{ github.event.inputs.commit_sha }}" != "" ]; then
+            echo "Using specified commit SHA: ${{ github.event.inputs.commit_sha }}"
+            echo "commit_sha=${{ github.event.inputs.commit_sha }}" >> $GITHUB_OUTPUT
+          else
+            echo "Using default commit SHA: ${{ github.sha }}"
+            echo "commit_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout SHA
+        run: |
+          ssh -i deploy_key $VM_USER@$VM_HOST << EOF
+            cd ${PROJECT_PATH}
+            git fetch --all
+            git checkout ${{ steps.determine_sha.outputs.commit_sha }}
+          EOF
+
+      - name: Build container
+        run: |
+          ssh -i deploy_key $VM_USER@$VM_HOST << EOF
+            cd ${PROJECT_PATH}
+            docker build -t ${APP_NAME}:${{ github.sha }} .
+          EOF
+
+      - name: Deploy to VM
+        run: |
+          ssh -i deploy_key $VM_USER@$VM_HOST << EOF
+            mkdir -p ${DB_PATH}
+            docker stop ${APP_NAME} || true
+            docker rm ${APP_NAME} || true
+            docker run -d \
+              --name ${APP_NAME} \
+              -p 8081:8083 \
+              -v ${DB_PATH}:/app/db \
+              ${APP_NAME}:${{ github.sha }}
+          EOF

@@ -27,7 +27,7 @@ var Config Configuration = Configuration{
 }
 
 func ConnectToDB() {
-	db, err := gorm.Open(sqlite.Open("warehouse.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("db/warehouse.db"), &gorm.Config{})
 
 	if err != nil {
 		log.Fatal("Failed to load DB")
