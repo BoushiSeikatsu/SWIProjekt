@@ -166,20 +166,7 @@ func AdminUpdateProduct(product models.Product, manufacturers []models.Manufactu
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" required><div class=\"error-text\">Optional unit error</div></div><div class=\"mb-3\"><label for=\"identification\" class=\"form-label\">Identification</label> <input type=\"text\" class=\"form-control\" id=\"identification\" name=\"id\" placeholder=\"Identification\" value=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatUint(uint64(product.ID), 10))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/adminProductUpdate.templ`, Line: 182, Col: 176}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" required><div class=\"error-text\">Optional identification error</div></div></div></div><!-- TODO??? --><!-- If product is not stored yet --><div class=\"d-flex justify-content-between mt-3\"><button type=\"submit\" class=\"btn btn-primary w-100 me-2\"><i class=\"bi bi-shield-lock me-2\"></i>Update</button> <button type=\"button\" class=\"btn btn-danger w-100\" onclick=\"handleDelete()\"><i class=\"bi bi-shield-lock me-2\"></i>Delete</button></div><!-- If product is already stored (no delete) --><!-- <div class=\"d-flex justify-content-center\">\r\n                    <div style=\"max-width: 500px; width: 100%;\">\r\n                        <button type=\"submit\" class=\"btn btn-primary w-100 mt-3\">\r\n                            <i class=\"bi bi-shield-lock me-2\"></i>Update\r\n                        </button>\r\n                    </div>\r\n                </div> --></form></div></div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" required><div class=\"error-text\">Optional unit error</div></div></div></div><!-- TODO??? --><!-- If product is not stored yet --><div class=\"d-flex justify-content-between mt-3\"><button type=\"submit\" class=\"btn btn-primary w-100 me-2\"><i class=\"bi bi-shield-lock me-2\"></i>Update</button> <button type=\"button\" class=\"btn btn-danger w-100\" onclick=\"handleDelete()\"><i class=\"bi bi-shield-lock me-2\"></i>Delete</button></div><!-- If product is already stored (no delete) --><!-- <div class=\"d-flex justify-content-center\">\r\n                    <div style=\"max-width: 500px; width: 100%;\">\r\n                        <button type=\"submit\" class=\"btn btn-primary w-100 mt-3\">\r\n                            <i class=\"bi bi-shield-lock me-2\"></i>Update\r\n                        </button>\r\n                    </div>\r\n                </div> --></form></div></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

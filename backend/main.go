@@ -101,7 +101,7 @@ func main() {
         admin.POST("/removeManufacturer", controllers.AdminMiddleware(), controllers.RemoveManufacturer)
 
         // Product thingies
-        /*admin.GET("/addProduct", controllers.AdminMiddleware(), func (c *gin.Context) {
+        admin.GET("/addProduct", controllers.AdminMiddleware(), func (c *gin.Context) {
             c.HTML(http.StatusOK, "", templates.AdminAddProduct(controllers.AllManufacturers()))
         })
         admin.POST("/addProduct", controllers.AdminMiddleware(), controllers.AddProduct)
@@ -111,9 +111,13 @@ func main() {
         })
 
         admin.GET("/updateProduct/:id", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminUpdateProduct(controllers.GetProduct(c.Param("id")), controllers.AllManufacturers()))
+            c.HTML(http.StatusOK, "", templates.AdminUpdateProduct(controllers.GetProductByID(c.Param("id")), controllers.AllManufacturers()))
         })
-        admin.POST("/updateProduct", controllers.AdminMiddleware(), controllers.UpdateProduct)*/
+        admin.POST("/updateProduct/:id", controllers.AdminMiddleware(), controllers.UpdateProduct)
+
+        admin.GET("/searchProducts", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templates.AdminSearchProduct(controllers.AllProducts()))
+        })
     }
 
 	r.Run(initializers.IP + ":" + initializers.PORT)

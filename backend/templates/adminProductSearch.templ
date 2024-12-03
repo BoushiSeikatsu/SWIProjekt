@@ -1,0 +1,213 @@
+package templates
+
+import (
+    "strconv"
+    "fmt"
+    "swi-warehouse/models"
+)
+
+templ AdminSearchProduct(products  []models.Product) {
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #be274b;
+            padding: 10px 0;
+        }
+        .navbar .nav-link,
+        .navbar .navbar-icon {
+            color: #e2e6ea;
+            padding: 10px 15px;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+            position: relative;
+        }
+        .navbar-icon {
+            font-size: 1.5rem;
+            cursor: default;
+        }
+        .nav-link[onclick] {
+            cursor: pointer;
+            user-select: none;
+        }
+        .d-flex {
+            align-items: center;
+        }
+        .navbar .nav-link:hover {
+            background-color: #da3060;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .content-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 78px;
+        }
+        .justify-between {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 5px;
+            z-index: 1001;
+        }
+        .submenu a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+            padding: 5px 15px;
+        }
+        .submenu a:hover {
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+        .setup-container {
+            height: calc(100% + 78px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .inventory-container {
+            margin-top: -75px;
+        }
+        .table-responsive {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        .pagination {
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    @AdminNav()
+
+    <div class="container setup-container">
+        <div class="container inventory-container">
+            <h2 class="mb-4 text-center">Manage Products</h2>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <a href="/admin/addProduct">
+                    <button class="btn btn-success">
+                        <i class="bi bi-shield-lock me-2"></i>Create New Item
+                    </button>
+                </a>
+                <form class="d-flex align-items-center" action="#" method="GET">
+                    <input type="text" name="search" class="form-control me-2" placeholder="Search..." style="width: 200px;">
+                    <select name="manufacturer" class="form-select me-2" style="width: 200px;">
+                        <option selected value="all">All Manufacturers</option>
+                        <option value="1">Manufacturer 1</option>
+                        <option value="2">Manufacturer 2</option>
+                        <option value="3">Manufacturer 3</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </form>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Description</th>
+                            <th>Manufacturer</th>
+                            <th>Width</th>
+                            <th>Height</th>
+                            <th>Depth</th>
+                            <th>Batch</th>
+                            <th>Unit</th>
+                            <th>Identification</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Placeholder Item -->
+                        for _, product := range products {
+                        <tr>
+                            <td>{product.Description}</td>
+                            <td>{product.Manufacturer.Name}</td>
+                            <td>{strconv.FormatUint(uint64(product.XDimension), 10)}</td>
+                            <td>{strconv.FormatUint(uint64(product.YDimension), 10)}</td>
+                            <td>{strconv.FormatUint(uint64(product.ZDimension), 10)}</td>
+                            <td>{product.Batch}</td>
+                            <td>{product.Unit}</td>
+                            <td>{strconv.FormatUint(uint64(product.ID), 10)}</td>
+                            <td>
+                                <a href={templ.URL(fmt.Sprintf("/admin/locateProduct/%d", product.ID))}><button class="btn btn-secondary btn-sm me-2">Locate</button></a>
+                                <a href={templ.URL(fmt.Sprintf("/admin/updateProduct/%d", product.ID))}><button class="btn btn-primary btn-sm me-2">
+                                    <i class="bi bi-shield-lock me-2"></i>Update
+                                </button></a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Inventory pagination">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <script>
+        function toggleSubmenu(id) {
+            const submenu = document.getElementById(id);
+            const isVisible = submenu.style.display === 'block';
+            document.querySelectorAll('.submenu').forEach(menu => menu.style.display = 'none');
+            submenu.style.display = isVisible ? 'none' : 'block';
+        }
+        document.addEventListener('click', function(e) {
+            const isClickInside = e.target.closest('.nav-link') || e.target.closest('.submenu');
+            if (!isClickInside) {
+                document.querySelectorAll('.submenu').forEach(menu => menu.style.display = 'none');
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+}

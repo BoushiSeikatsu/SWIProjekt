@@ -177,11 +177,6 @@ templ AdminUpdateProduct(product models.Product, manufacturers []models.Manufact
                             <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit" value={product.Unit} required>
                             <div class="error-text">Optional unit error</div>
                         </div>
-                        <div class="mb-3">
-                            <label for="identification" class="form-label">Identification</label>
-                            <input type="text" class="form-control" id="identification" name="id" placeholder="Identification" value={strconv.FormatUint(uint64(product.ID), 10)} required>
-                            <div class="error-text">Optional identification error</div>
-                        </div>
                     </div>
                 </div>
                 <!-- TODO??? -->
