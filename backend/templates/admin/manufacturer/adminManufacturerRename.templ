@@ -1,8 +1,9 @@
-package templates
+package templatesAdminManufacturer
 
 import (
     "strconv"
     "swi-warehouse/models"
+    "swi-warehouse/templates"
 )
 
 templ AdminRenameManufacturer(manufacrurers []models.Manufacturer) {
@@ -113,7 +114,7 @@ templ AdminRenameManufacturer(manufacrurers []models.Manufacturer) {
     </style>
 </head>
 <body>
-    @AdminNav()
+    @templates.AdminNav()
 
     <div class="container rename-manufacturer-container">
         <div class="rename-manufacturer-form">
@@ -141,7 +142,7 @@ templ AdminRenameManufacturer(manufacrurers []models.Manufacturer) {
         </div>
     </div>
 
-    @AdminScript()
+    @templates.AdminScript()
 </body>
 </html>
 }

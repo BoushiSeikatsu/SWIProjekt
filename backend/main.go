@@ -6,6 +6,10 @@ import (
 	"swi-warehouse/gintemplrenderer"
 	"swi-warehouse/initializers"
 	"swi-warehouse/templates"
+	"swi-warehouse/templates/admin/user"
+	"swi-warehouse/templates/admin/manufacturer"
+	"swi-warehouse/templates/admin/storage"
+	"swi-warehouse/templates/admin/product"
 
 	"github.com/gin-gonic/gin"
 )
@@ -44,79 +48,79 @@ func main() {
     admin := r.Group("/admin")
     {
         admin.GET("/", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminAddUser())
+            c.HTML(http.StatusOK, "", templatesAdminUser.AdminAddUser())
         })
 
         // User thingies
         admin.GET("/addUser", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminAddUser())
+            c.HTML(http.StatusOK, "", templatesAdminUser.AdminAddUser())
         })
         admin.POST("/addUser", controllers.AdminMiddleware(), controllers.AddUser)
 
         admin.GET("/changePassword", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminChangePassword(controllers.AllUsers()))
+            c.HTML(http.StatusOK, "", templatesAdminUser.AdminChangePassword(controllers.AllUsers()))
         })
         admin.POST("/changePassword", controllers.AdminMiddleware(), controllers.ChangePassword)
 
         admin.GET("/disableUser", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminDisableUser(controllers.AllActiveUsers()))
+            c.HTML(http.StatusOK, "", templatesAdminUser.AdminDisableUser(controllers.AllActiveUsers()))
         })
         admin.POST("/disableUser", controllers.AdminMiddleware(), controllers.DisableUser)
 
         admin.GET("/enableUser", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminEnableUser(controllers.AllDisabledUsers()))
+            c.HTML(http.StatusOK, "", templatesAdminUser.AdminEnableUser(controllers.AllDisabledUsers()))
         })
         admin.POST("/enableUser", controllers.AdminMiddleware(), controllers.EnableUser)
         
         // Storage thingies
         admin.GET("/addStorage", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminAddStorage())
+            c.HTML(http.StatusOK, "", templatesAdminStorage.AdminAddStorage())
         })
         admin.POST("/addStorage", controllers.AdminMiddleware(), controllers.AddStorage)
 
         admin.GET("/renameStorage", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminRenameStorage(controllers.AllStorages()))
+            c.HTML(http.StatusOK, "", templatesAdminStorage.AdminRenameStorage(controllers.AllStorages()))
         })
         admin.POST("/renameStorage", controllers.AdminMiddleware(), controllers.RenameStorage)
 
         admin.GET("/removeStorage", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminRemoveStorage(controllers.AllStorages()))
+            c.HTML(http.StatusOK, "", templatesAdminStorage.AdminRemoveStorage(controllers.AllStorages()))
         })
         admin.POST("/removeStorage", controllers.AdminMiddleware(), controllers.RemoveStorage)
 
         // Manufacturer thingies
         admin.GET("/addManufacturer", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminAddManufacturer())
+            c.HTML(http.StatusOK, "", templatesAdminManufacturer.AdminAddManufacturer())
         })
         admin.POST("/addManufacturer", controllers.AdminMiddleware(), controllers.AddManufacturer)
 
         admin.GET("/renameManufacturer", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminRenameManufacturer(controllers.AllManufacturers()))
+            c.HTML(http.StatusOK, "", templatesAdminManufacturer.AdminRenameManufacturer(controllers.AllManufacturers()))
         })
         admin.POST("/renameManufacturer", controllers.AdminMiddleware(), controllers.RenameManufacturer)
 
         admin.GET("/removeManufacturer", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminRemoveManufacturer(controllers.AllManufacturers()))
+            c.HTML(http.StatusOK, "", templatesAdminManufacturer.AdminRemoveManufacturer(controllers.AllManufacturers()))
         })
         admin.POST("/removeManufacturer", controllers.AdminMiddleware(), controllers.RemoveManufacturer)
 
         // Product thingies
         admin.GET("/addProduct", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminAddProduct(controllers.AllManufacturers()))
+            c.HTML(http.StatusOK, "", templatesAdminProduct.AdminAddProduct(controllers.AllManufacturers()))
         })
         admin.POST("/addProduct", controllers.AdminMiddleware(), controllers.AddProduct)
 
         admin.GET("/locateProduct", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminLocateProduct())
+            c.HTML(http.StatusOK, "", templatesAdminProduct.AdminLocateProduct())
         })
 
         admin.GET("/updateProduct/:id", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminUpdateProduct(controllers.GetProductByID(c.Param("id")), controllers.AllManufacturers()))
+            c.HTML(http.StatusOK, "", templatesAdminProduct.AdminUpdateProduct(controllers.GetProductByID(c.Param("id")), controllers.AllManufacturers()))
         })
         admin.POST("/updateProduct/:id", controllers.AdminMiddleware(), controllers.UpdateProduct)
 
         admin.GET("/searchProducts", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templates.AdminSearchProduct(controllers.AllProducts()))
+            c.HTML(http.StatusOK, "", templatesAdminProduct.AdminSearchProduct(controllers.AllProducts()))
         })
     }
 

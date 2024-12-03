@@ -1,4 +1,8 @@
-package templates
+package templatesAdminUser
+
+import (
+    "swi-warehouse/templates"
+)
 
 templ AdminAddUser() {
     <!DOCTYPE html>
@@ -107,7 +111,7 @@ templ AdminAddUser() {
         </style>
     </head>
     <body>
-        @AdminNav()
+        @templates.AdminNav()
 
         <div class="container add-user-container">
             <div class="add-user-form">

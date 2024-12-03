@@ -1,4 +1,6 @@
-package templates
+package templatesAdminProduct
+
+import "swi-warehouse/templates"
 
 templ AdminLocateProduct() {
     <!DOCTYPE html>
@@ -117,7 +119,7 @@ templ AdminLocateProduct() {
     </style>
 </head>
 <body>
-    @AdminNav()
+    @templates.AdminNav()
 
     <div class="container setup-container">
         <div class="setup-form">
@@ -232,7 +234,7 @@ templ AdminLocateProduct() {
         </div>
     </div>
 
-    @AdminScript()
+    @templates.AdminScript()
 </body>
 </html>
 }

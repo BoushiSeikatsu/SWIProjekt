@@ -1,9 +1,10 @@
-package templates
+package templatesAdminProduct
 
 import (
     "strconv"
     "fmt"
     "swi-warehouse/models"
+    "swi-warehouse/templates"
 )
 
 templ AdminSearchProduct(products  []models.Product) {
@@ -115,7 +116,7 @@ templ AdminSearchProduct(products  []models.Product) {
     </style>
 </head>
 <body>
-    @AdminNav()
+    @templates.AdminNav()
 
     <div class="container setup-container">
         <div class="container inventory-container">

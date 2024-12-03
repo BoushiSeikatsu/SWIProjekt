@@ -1,18 +1,18 @@
-package templates
+package templatesAdminProduct
 
 import (
     "strconv"
     "swi-warehouse/models"
+    "swi-warehouse/templates"
 )
 
-templ AdminUpdateProduct(product models.Product, manufacturers []models.Manufacturer) {
-
-<!DOCTYPE html>
+templ AdminAddProduct(manufacrurers []models.Manufacturer) {
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Product</title>
+    <title>Add New Product</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
@@ -118,39 +118,35 @@ templ AdminUpdateProduct(product models.Product, manufacturers []models.Manufact
     </style>
 </head>
 <body>
-    @AdminNav()
+    @templates.AdminNav()
 
     <div class="container setup-container">
         <div class="setup-form">
             <div class="d-flex align-items-center mb-4">
                 <a href="SearchProducts.html" class="back-arrow position-absolute"><i class="bi bi-arrow-left-circle"></i></a>
-                <h2 class="text-center w-100">Update Product</h2>
+                <h2 class="text-center w-100">Add New Product</h2>
             </div>
             <form method="post">
-                <input type="hidden" id="actionType" name="actionType" value="update">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <input type="text" class="form-control" id="description" name="description" placeholder="Description" value={product.Description} required>
+                            <input type="text" class="form-control" id="description" name="description" placeholder="Description" required>
                             <div class="error-text">Optional description error</div>
                         </div>
                         <div class="mb-3">
                             <label for="manufacturerSelect" class="form-label">Select Manufacturer</label>
                             <select class="form-select" id="manufacturerSelect" name="manufacturerSelect" required>
-                            for _, manufacturer := range manufacturers {
-                                <option value={strconv.FormatUint(uint64(manufacturer.ID), 10)}
-                                if manufacturer.ID == product.Manufacturer.ID {
-                                    selected
+                                <option value="" disabled selected>Select Manufacturer</option>
+                                for _, manufacturer := range manufacrurers {
+                                    <option value={strconv.FormatUint(uint64(manufacturer.ID), 10)}>{manufacturer.Name}</option>
                                 }
-                            >{manufacturer.Name}</option>
-                        }
                             </select>
                             <div class="error-text">Optional manufacturer error</div>
                         </div>
                         <div class="mb-3">
                             <label for="batch" class="form-label">Batch</label>
-                            <input type="text" class="form-control" id="batch" name="batch" placeholder="Batch" value={product.Batch} required>
+                            <input type="text" class="form-control" id="batch" name="batch" placeholder="Batch" required>
                             <div class="error-text">Optional batch error</div>
                         </div>
                     </div>
@@ -159,47 +155,38 @@ templ AdminUpdateProduct(product models.Product, manufacturers []models.Manufact
                             <div class="d-flex">
                                 <div class="me-2">
                                     <label for="dimX" class="form-label">Width</label>
-                                    <input type="number" class="form-control" id="dimX" name="dimX" placeholder="0" min="0" step="1" value={strconv.FormatUint(uint64(product.XDimension), 10)} required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    <input type="number" class="form-control" id="dimX" name="dimX" placeholder="0" min="0" step="1" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                 </div>
                                 <div class="me-2">
                                     <label for="dimY" class="form-label">Height</label>
-                                    <input type="number" class="form-control" id="dimY" name="dimY" placeholder="0" min="0" step="1" value={strconv.FormatUint(uint64(product.YDimension), 10)} required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    <input type="number" class="form-control" id="dimY" name="dimY" placeholder="0" min="0" step="1" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                 </div>
                                 <div>
                                     <label for="dimZ" class="form-label">Depth</label>
-                                    <input type="number" class="form-control" id="dimZ" name="dimZ" placeholder="0" min="0" step="1" value={strconv.FormatUint(uint64(product.ZDimension), 10)} required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    <input type="number" class="form-control" id="dimZ" name="dimZ" placeholder="0" min="0" step="1" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                 </div>
                             </div>
                             <div class="error-text">Optional dimension error</div>
                         </div>
                         <div class="mb-3">
                             <label for="unit" class="form-label">Unit</label>
-                            <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit" value={product.Unit} required>
+                            <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit" required>
                             <div class="error-text">Optional unit error</div>
                         </div>
                     </div>
                 </div>
-                <!-- TODO??? -->
-                <!-- If product is not stored yet -->
-                <div class="d-flex justify-content-between mt-3">
-                    <button type="submit" class="btn btn-primary w-100 me-2">
-                        <i class="bi bi-shield-lock me-2"></i>Update
-                    </button>
-                    <button type="button" class="btn btn-danger w-100" onclick="handleDelete()">
-                        <i class="bi bi-shield-lock me-2"></i>Delete
-                    </button>
-                </div>
-                <!-- If product is already stored (no delete) -->
-                <!-- <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center">
                     <div style="max-width: 500px; width: 100%;">
                         <button type="submit" class="btn btn-primary w-100 mt-3">
-                            <i class="bi bi-shield-lock me-2"></i>Update
+                            <i class="bi bi-shield-lock me-2"></i>Add
                         </button>
                     </div>
-                </div> -->
+                </div>
             </form>
         </div>
     </div>
+
+    @templates.AdminScript()
 </body>
 </html>
 }

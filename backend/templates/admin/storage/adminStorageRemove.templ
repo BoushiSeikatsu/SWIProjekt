@@ -1,18 +1,18 @@
-package templates
+package templatesAdminStorage
 
 import (
     "strconv"
     "swi-warehouse/models"
+    "swi-warehouse/templates"
 )
 
-templ AdminRemoveManufacturer(manufacrurers []models.Manufacturer) {
-
-<!DOCTYPE html>
+templ AdminRemoveStorage(storages []models.Storage) {
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remove Manufacturer</title>
+    <title>Remove Storage</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
@@ -91,13 +91,13 @@ templ AdminRemoveManufacturer(manufacrurers []models.Manufacturer) {
             background-color: #ddd;
             border-radius: 5px;
         }
-        .remove-manufacturer-container {
+        .remove-storage-container {
             height: calc(100% + 78px);
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        .remove-manufacturer-form {
+        .remove-storage-form {
             width: 100%;
             max-width: 400px;
             padding: 15px;
@@ -113,21 +113,21 @@ templ AdminRemoveManufacturer(manufacrurers []models.Manufacturer) {
     </style>
 </head>
 <body>
-    @AdminNav()
+    @templates.AdminNav()
 
-    <div class="container remove-manufacturer-container">
-        <div class="remove-manufacturer-form">
-            <h2 class="text-center mb-4">Remove Manufacturer</h2>
+    <div class="container remove-storage-container">
+        <div class="remove-storage-form">
+            <h2 class="text-center mb-4">Remove Storage</h2>
             <form method="post">
                 <div class="mb-3">
-                    <label for="manufacturerSelect" class="form-label">Select Manufacturer</label>
-                    <select class="form-select" id="manufacturerSelect" name="manufacturerSelect" required>
-                        <option value="" disabled selected>Select Manufacturer</option>
-                        for _, manufacturer := range manufacrurers {
-                            <option value={strconv.FormatUint(uint64(manufacturer.ID), 10)}>{manufacturer.Name}</option>
+                    <label for="storageSelect" class="form-label">Select Storage</label>
+                    <select class="form-select" id="storageSelect" name="storageSelect" required>
+                        <option value="" disabled selected>Select Storage</option>
+                        for _, storage := range storages {
+                            <option value={strconv.FormatUint(uint64(storage.ID), 10)}>{storage.Name}</option>
                         }
                     </select>
-                    <div class="error-text">Optional manufacturer error</div>
+                    <div class="error-text">Optional storage error</div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">
                     <i class="bi bi-shield-lock me-2"></i>Remove
@@ -136,7 +136,8 @@ templ AdminRemoveManufacturer(manufacrurers []models.Manufacturer) {
         </div>
     </div>
 
-    @AdminScript()
+    @templates.AdminScript()
 </body>
 </html>
+
 }

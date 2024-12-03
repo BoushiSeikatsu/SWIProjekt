@@ -1,17 +1,18 @@
-package templates
+package templatesAdminUser
 
 import (
     "strconv"
     "swi-warehouse/models"
+    "swi-warehouse/templates"
 )
 
-templ AdminRenameStorage(storages []models.Storage) {
+templ AdminDisableUser(users []models.User) {
     <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rename Storage</title>
+    <title>Disable User</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
@@ -90,13 +91,13 @@ templ AdminRenameStorage(storages []models.Storage) {
             background-color: #ddd;
             border-radius: 5px;
         }
-        .rename-storage-container {
+        .setup-container {
             height: calc(100% + 78px);
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        .rename-storage-form {
+        .setup-form {
             width: 100%;
             max-width: 400px;
             padding: 15px;
@@ -112,35 +113,30 @@ templ AdminRenameStorage(storages []models.Storage) {
     </style>
 </head>
 <body>
-    @AdminNav()
+    @templates.AdminNav()
 
-    <div class="container rename-storage-container">
-        <div class="rename-storage-form">
-            <h2 class="text-center mb-4">Rename Storage</h2>
+    <div class="container setup-container">
+        <div class="setup-form">
+            <h2 class="text-center mb-4">Disable User</h2>
             <form method="post">
                 <div class="mb-3">
-                    <label for="storageSelect" class="form-label">Select Storage</label>
-                    <select class="form-select" id="storageSelect" name="storageSelect" required>
-                        <option value="" disabled selected>Select Storage</option>
-                        for _, storage := range storages {
-                            <option value={strconv.FormatUint(uint64(storage.ID), 10)}>{storage.Name}</option>
+                    <label for="userSelect" class="form-label">Select User</label>
+                    <select class="form-select" id="userSelect" name="userSelect" required>
+                        <option value="" disabled selected>Select a user</option>
+                        for _, user := range users {
+                            <option value={strconv.FormatUint(uint64(user.ID), 10)}>{user.Username}</option>
                         }
                     </select>
-                    <div class="error-text">Optional storage error</div>
-                </div>
-                <div class="mb-3">
-                    <label for="name" class="form-label">New Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="New Name" required>
-                    <div class="error-text">Optional new name error</div>
+                    <div class="error-text">Optional user error</div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">
-                    <i class="bi bi-shield-lock me-2"></i>Rename
+                    <i class="bi bi-shield-lock me-2"></i>Disable User
                 </button>
             </form>
         </div>
     </div>
 
-    @AdminScript()
+    @templates.AdminScript()
 </body>
 </html>
 

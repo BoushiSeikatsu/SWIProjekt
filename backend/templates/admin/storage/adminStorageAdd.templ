@@ -1,4 +1,6 @@
-package templates
+package templatesAdminStorage
+
+import "swi-warehouse/templates"
 
 templ AdminAddStorage() {
     <!DOCTYPE html>
@@ -107,7 +109,7 @@ templ AdminAddStorage() {
     </style>
 </head>
 <body>
-    @AdminNav()
+    @templates.AdminNav()
 
     <div class="container add-storage-container">
         <div class="add-storage-form">
@@ -125,7 +127,7 @@ templ AdminAddStorage() {
         </div>
     </div>
 
-    @AdminScript()
+    @templates.AdminScript()
 </body>
 </html>
 
