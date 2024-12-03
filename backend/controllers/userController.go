@@ -43,18 +43,18 @@ func AddUser (c *gin.Context) {
 }
 
 func ChangePassword (c *gin.Context) {
-	username := c.PostForm("userSelect")
+	id := c.PostForm("userSelect")
 	password := c.PostForm("newPassword")
 
-	if username == "" || password == "" {
+	if id == "" || password == "" {
 		c.JSON(400, gin.H{"error": "Username and password cannot be empty"})
 		return
 	}
 
 	var user models.User
-	r := initializers.DB.First(&user, "username = ?", username)
+	r := initializers.DB.First(&user, id)
 	if r.Error != nil {
-		c.JSON(400, gin.H{"error": "User not found"})
+		c.JSON(400, gin.H{"error": r.Error.Error()})
 		return
 	}
 
@@ -65,15 +65,15 @@ func ChangePassword (c *gin.Context) {
 }
 
 func DisableUser (c *gin.Context) {
-	username := c.PostForm("userSelect")
+	id := c.PostForm("userSelect")
 
-	if username == "" {
-		c.JSON(400, gin.H{"error": "Username cannot be empty"})
+	if id == "" {
+		c.JSON(400, gin.H{"error": "User cannot be empty"})
 		return
 	}
 
 	var user models.User
-	r := initializers.DB.First(&user, "username = ?", username)
+	r := initializers.DB.First(&user, id)
 	if r.Error != nil {
 		c.JSON(400, gin.H{"error": "User not found"})
 		return
@@ -86,15 +86,15 @@ func DisableUser (c *gin.Context) {
 }
 
 func EnableUser (c *gin.Context) {
-	username := c.PostForm("userSelect")
+	id := c.PostForm("userSelect")
 
-	if username == "" {
-		c.JSON(400, gin.H{"error": "Username cannot be empty"})
+	if id == "" {
+		c.JSON(400, gin.H{"error": "User cannot be empty"})
 		return
 	}
 
 	var user models.User
-	r := initializers.DB.First(&user, "username = ?", username)
+	r := initializers.DB.First(&user, id)
 	if r.Error != nil {
 		c.JSON(400, gin.H{"error": "User not found"})
 		return
@@ -103,7 +103,7 @@ func EnableUser (c *gin.Context) {
 	user.Active = true
 	initializers.DB.Save(&user)
 
-	c.Redirect(302, "/admin/enableUser")
+	c.Redirect(302, "/admin/disableUser")
 }
 
 func AllUsers () []models.User {

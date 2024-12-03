@@ -50,16 +50,16 @@ func AddStorage(c *gin.Context) {
 }
 
 func RenameStorage(c *gin.Context) {
-	storageName := c.PostForm("storageSelect")
+	id := c.PostForm("storageSelect")
 	newStorageName := c.PostForm("name")
 
-	if storageName == "" || newStorageName == "" {
-		c.JSON(400, gin.H{"error": "Storage name and new storage name cannot be empty"})
+	if id == "" || newStorageName == "" {
+		c.JSON(400, gin.H{"error": "Storage and new storage name cannot be empty"})
 		return
 	}
 
 	var storage models.Storage
-	r := initializers.DB.First(&storage, "name = ?", storageName)
+	r := initializers.DB.First(&storage, id)
 	if r.Error != nil {
 		c.JSON(400, gin.H{"error": "Storage not found"})
 		return
@@ -73,15 +73,15 @@ func RenameStorage(c *gin.Context) {
 }
 
 func RemoveStorage(c *gin.Context) {
-	storageName := c.PostForm("storageSelect")
+	id := c.PostForm("storageSelect")
 
-	if storageName == "" {
+	if id == "" {
 		c.JSON(400, gin.H{"error": "Storage name cannot be empty"})
 		return
 	}
 
 	var storage models.Storage
-	r := initializers.DB.First(&storage, "name = ?", storageName)
+	r := initializers.DB.First(&storage, id)
 	if r.Error != nil {
 		c.JSON(400, gin.H{"error": "Storage not found"})
 		return

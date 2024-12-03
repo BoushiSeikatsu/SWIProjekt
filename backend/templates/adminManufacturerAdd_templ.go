@@ -37,7 +37,15 @@ func AdminAddManufacturer() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container add-manufacturer-container\"><div class=\"add-manufacturer-form\"><h2 class=\"text-center mb-4\">Add Manufacturer</h2><form method=\"post\"><div class=\"mb-3\"><label for=\"name\" class=\"form-label\">Manufacturer Name</label> <input type=\"text\" class=\"form-control\" id=\"name\" name=\"name\" placeholder=\"Manufacturer Name\" required><div class=\"error-text\">Optional manufacturer name error</div></div><button type=\"submit\" class=\"btn btn-primary w-100\"><i class=\"bi bi-shield-lock me-2\"></i>Add</button></form></div></div><script>\r\n        function toggleSubmenu(id) {\r\n            const submenu = document.getElementById(id);\r\n            const isVisible = submenu.style.display === 'block';\r\n            document.querySelectorAll('.submenu').forEach(menu => menu.style.display = 'none');\r\n            submenu.style.display = isVisible ? 'none' : 'block';\r\n        }\r\n        document.addEventListener('click', function(e) {\r\n            const isClickInside = e.target.closest('.nav-link') || e.target.closest('.submenu');\r\n            if (!isClickInside) {\r\n                document.querySelectorAll('.submenu').forEach(menu => menu.style.display = 'none');\r\n            }\r\n        });\r\n    </script><script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js\"></script></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container add-manufacturer-container\"><div class=\"add-manufacturer-form\"><h2 class=\"text-center mb-4\">Add Manufacturer</h2><form method=\"post\"><div class=\"mb-3\"><label for=\"name\" class=\"form-label\">Manufacturer Name</label> <input type=\"text\" class=\"form-control\" id=\"name\" name=\"name\" placeholder=\"Manufacturer Name\" required><div class=\"error-text\">Optional manufacturer name error</div></div><button type=\"submit\" class=\"btn btn-primary w-100\"><i class=\"bi bi-shield-lock me-2\"></i>Add</button></form></div></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = AdminScript().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

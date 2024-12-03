@@ -8,7 +8,10 @@ package templates
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "swi-warehouse/models"
+import (
+	"strconv"
+	"swi-warehouse/models"
+)
 
 func AdminRenameManufacturer(manufacrurers []models.Manufacturer) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -49,9 +52,9 @@ func AdminRenameManufacturer(manufacrurers []models.Manufacturer) templ.Componen
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var2 string
-			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(manufacturer.Name)
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatUint(uint64(manufacturer.ID), 10))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/adminManufacturerRename.templ`, Line: 124, Col: 60}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/adminManufacturerRename.templ`, Line: 127, Col: 90}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -64,7 +67,7 @@ func AdminRenameManufacturer(manufacrurers []models.Manufacturer) templ.Componen
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(manufacturer.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/adminManufacturerRename.templ`, Line: 124, Col: 80}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/adminManufacturerRename.templ`, Line: 127, Col: 110}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -75,7 +78,15 @@ func AdminRenameManufacturer(manufacrurers []models.Manufacturer) templ.Componen
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</select><div class=\"error-text\">Optional manufacturer error</div></div><div class=\"mb-3\"><label for=\"name\" class=\"form-label\">New Name</label> <input type=\"text\" class=\"form-control\" id=\"name\" name=\"name\" placeholder=\"New Name\" required><div class=\"error-text\">Optional new name error</div></div><button type=\"submit\" class=\"btn btn-primary w-100\"><i class=\"bi bi-shield-lock me-2\"></i>Rename</button></form></div></div><script>\r\n        function toggleSubmenu(id) {\r\n            const submenu = document.getElementById(id);\r\n            const isVisible = submenu.style.display === 'block';\r\n            document.querySelectorAll('.submenu').forEach(menu => menu.style.display = 'none');\r\n            submenu.style.display = isVisible ? 'none' : 'block';\r\n        }\r\n        document.addEventListener('click', function(e) {\r\n            const isClickInside = e.target.closest('.nav-link') || e.target.closest('.submenu');\r\n            if (!isClickInside) {\r\n                document.querySelectorAll('.submenu').forEach(menu => menu.style.display = 'none');\r\n            }\r\n        });\r\n    </script><script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js\"></script></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</select><div class=\"error-text\">Optional manufacturer error</div></div><div class=\"mb-3\"><label for=\"name\" class=\"form-label\">New Name</label> <input type=\"text\" class=\"form-control\" id=\"name\" name=\"name\" placeholder=\"New Name\" required><div class=\"error-text\">Optional new name error</div></div><button type=\"submit\" class=\"btn btn-primary w-100\"><i class=\"bi bi-shield-lock me-2\"></i>Rename</button></form></div></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = AdminScript().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

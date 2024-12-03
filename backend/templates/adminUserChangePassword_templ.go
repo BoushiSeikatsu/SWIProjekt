@@ -8,7 +8,10 @@ package templates
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "swi-warehouse/models"
+import (
+	"strconv"
+	"swi-warehouse/models"
+)
 
 func AdminChangePassword(users []models.User) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -49,9 +52,9 @@ func AdminChangePassword(users []models.User) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var2 string
-			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(user.Username)
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatUint(uint64(user.ID), 10))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/adminUserChangePassword.templ`, Line: 123, Col: 60}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/adminUserChangePassword.templ`, Line: 126, Col: 86}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -64,7 +67,7 @@ func AdminChangePassword(users []models.User) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(user.Username)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/adminUserChangePassword.templ`, Line: 123, Col: 76}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/adminUserChangePassword.templ`, Line: 126, Col: 102}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -75,7 +78,7 @@ func AdminChangePassword(users []models.User) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</select></div><div class=\"mb-3\"><label for=\"newPassword\" class=\"form-label\">New Password</label><div class=\"input-group\"><input type=\"password\" class=\"form-control\" id=\"newPassword\" name=\"newPassword\" placeholder=\"New Password\"> <button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"togglePassword(&#39;newPassword&#39;, this)\"><i class=\"bi bi-eye\"></i></button></div><div class=\"error-text\">Optional password error</div></div><div class=\"mb-3\"><label for=\"passwordRepeat\" class=\"form-label\">Confirm New Password</label><div class=\"input-group\"><input type=\"password\" class=\"form-control\" id=\"passwordRepeat\" name=\"passwordRepeat\" placeholder=\"Confirm New Password\"> <button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"togglePassword(&#39;passwordRepeat&#39;, this)\"><i class=\"bi bi-eye\"></i></button></div><div class=\"error-text\">Optional confirm password error</div></div><button type=\"submit\" class=\"btn btn-primary w-100\"><i class=\"bi bi-shield-lock me-2\"></i>Set Password</button></form></div></div><script>\r\n            function togglePassword(fieldId, button) {\r\n                const field = document.getElementById(fieldId);\r\n                const icon = button.querySelector('i');\r\n                if (field.type === \"password\") {\r\n                    field.type = \"text\";\r\n                    icon.classList.replace('bi-eye', 'bi-eye-slash');\r\n                } else {\r\n                    field.type = \"password\";\r\n                    icon.classList.replace('bi-eye-slash', 'bi-eye');\r\n                }\r\n            }\r\n            function toggleSubmenu(id) {\r\n                const submenu = document.getElementById(id);\r\n                const isVisible = submenu.style.display === 'block';\r\n                document.querySelectorAll('.submenu').forEach(menu => menu.style.display = 'none');\r\n                submenu.style.display = isVisible ? 'none' : 'block';\r\n            }\r\n            document.addEventListener('click', function(e) {\r\n                const isClickInside = e.target.closest('.nav-link') || e.target.closest('.submenu');\r\n                if (!isClickInside) {\r\n                    document.querySelectorAll('.submenu').forEach(menu => menu.style.display = 'none');\r\n                }\r\n            });\r\n        </script><script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js\"></script></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</select></div><div class=\"mb-3\"><label for=\"newPassword\" class=\"form-label\">New Password</label><div class=\"input-group\"><input type=\"password\" class=\"form-control\" id=\"newPassword\" name=\"newPassword\" placeholder=\"New Password\"> <button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"togglePassword(&#39;newPassword&#39;, this)\"><i class=\"bi bi-eye\"></i></button></div><div class=\"error-text\">Optional password error</div></div><div class=\"mb-3\"><label for=\"passwordRepeat\" class=\"form-label\">Confirm New Password</label><div class=\"input-group\"><input type=\"password\" class=\"form-control\" id=\"passwordRepeat\" name=\"passwordRepeat\" placeholder=\"Confirm New Password\"> <button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"togglePassword(&#39;passwordRepeat&#39;, this)\"><i class=\"bi bi-eye\"></i></button></div><div class=\"error-text\">Optional confirm password error</div></div><button type=\"submit\" class=\"btn btn-primary w-100\"><i class=\"bi bi-shield-lock me-2\"></i>Set Password</button></form></div></div><script>\r\n            function togglePassword(fieldId, button) {\r\n                const field = document.document.getElementById(fieldId);;\r\n                const icon = button.querySelector('i');\r\n                if (field.type === \"password\") {\r\n                    field.type = \"text\";\r\n                    icon.classList.replace('bi-eye', 'bi-eye-slash');\r\n                } else {\r\n                    field.type = \"password\";\r\n                    icon.classList.replace('bi-eye-slash', 'bi-eye');\r\n                }\r\n            }\r\n            function toggleSubmenu(id) {\r\n                const submenu = document.getElementById(id);\r\n                const isVisible = submenu.style.display === 'block';\r\n                document.querySelectorAll('.submenu').forEach(menu => menu.style.display = 'none');\r\n                submenu.style.display = isVisible ? 'none' : 'block';\r\n            }\r\n            document.addEventListener('click', function(e) {\r\n                const isClickInside = e.target.closest('.nav-link') || e.target.closest('.submenu');\r\n                if (!isClickInside) {\r\n                    document.querySelectorAll('.submenu').forEach(menu => menu.style.display = 'none');\r\n                }\r\n            });\r\n        </script><script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js\"></script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

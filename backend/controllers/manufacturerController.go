@@ -50,16 +50,16 @@ func AddManufacturer(c *gin.Context) {
 }
 
 func RenameManufacturer(c *gin.Context) {
-	manufacturerName := c.PostForm("manufacturerSelect")
+	id := c.PostForm("manufacturerSelect")
 	newManufacturerName := c.PostForm("name")
 
-	if manufacturerName == "" || newManufacturerName == "" {
+	if id == "" || newManufacturerName == "" {
 		c.JSON(400, gin.H{"error": "Manufacturer name and new manufacturer name cannot be empty"})
 		return
 	}
 
 	var manufacturer models.Manufacturer
-	r := initializers.DB.First(&manufacturer, "name = ?", manufacturerName)
+	r := initializers.DB.First(&manufacturer, id)
 	if r.Error != nil {
 		c.JSON(400, gin.H{"error": "Manufacturer not found"})
 		return
@@ -73,15 +73,15 @@ func RenameManufacturer(c *gin.Context) {
 }
 
 func RemoveManufacturer(c *gin.Context) {
-	manufacturerName := c.PostForm("manufacturerSelect")
+	id := c.PostForm("manufacturerSelect")
 
-	if manufacturerName == "" {
+	if id == "" {
 		c.JSON(400, gin.H{"error": "Manufacturer name cannot be empty"})
 		return
 	}
 
 	var manufacturer models.Manufacturer
-	r := initializers.DB.First(&manufacturer, "name = ?", manufacturerName)
+	r := initializers.DB.First(&manufacturer, id)
 	if r.Error != nil {
 		c.JSON(400, gin.H{"error": "Manufacturer not found"})
 		return
