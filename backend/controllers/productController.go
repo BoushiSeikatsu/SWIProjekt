@@ -27,6 +27,13 @@ func AllProducts() []models.Product {
 	return products
 }
 
+func AllProductsByManufacturer(manufacturerID string) []models.Product {
+	var products []models.Product
+	initializers.DB.Where("manufacturer_id= ?", manufacturerID).Find(&products)
+
+	return products
+}
+
 func GetProductByID(id string) models.Product {
 	var product models.Product
 	initializers.DB.First(&product, id)
@@ -148,4 +155,131 @@ func UpdateProduct(c *gin.Context) {
 	initializers.DB.Save(&product)
 
 	c.Redirect(302, "/admin/searchProducts")
+}
+
+func SupplyProduct(c *gin.Context) {
+	productID := c.PostForm("productSelect")
+	storageID := c.PostForm("storageSelect")
+	amount := c.PostForm("amount")
+
+	if productID == "" || storageID == "" || amount == "" {
+		c.JSON(400, gin.H{"error": "All fields are required"})
+		return
+	}
+
+	// parse quantity
+	q, err := strconv.Atoi(amount)
+	if err != nil {
+		c.JSON(400, gin.H{"error": "Invalid quantity"})
+		return
+	}
+
+	// Find product
+	var product models.Product
+	r := initializers.DB.First(&product, productID)
+	if r.Error != nil {
+		c.JSON(400, gin.H{"error": "Invalid product"})
+		return
+	}
+
+	// Find storage
+	var storage models.Storage
+	r = initializers.DB.First(&storage, storageID)
+	if r.Error != nil {
+		c.JSON(400, gin.H{"error": "Invalid storage"})
+		return
+	}
+
+	usr, _ := c.Get("user")
+
+	supply := models.Added{
+		Product:  product,
+		Storage:  storage,
+		Amount:   q,
+		User: usr.(models.User),
+	}
+
+	initializers.DB.Create(&supply)
+
+	// Find the stores with the product and storage
+	var store models.Stores
+	r = initializers.DB.Where("product_id = ? AND storage_id = ?", productID, storageID).First(&store)
+
+	// update the store
+	if r.Error == nil {
+		store.Amount += q
+		initializers.DB.Save(&store)
+	} else {
+		store := models.Stores{
+			Product:  product,
+			Storage:  storage,
+			Amount: q,
+		}
+		initializers.DB.Create(&store)
+	}
+
+	c.Redirect(302, "/admin/selectSupplyManufacturer")
+}
+
+func WithdrawProduct(c *gin.Context) {
+	productID := c.PostForm("productSelect")
+	storageID := c.PostForm("storageSelect")
+	amount := c.PostForm("amount")
+
+	if productID == "" || storageID == "" || amount == "" {
+		c.JSON(400, gin.H{"error": "All fields are required"})
+		return
+	}
+
+	// parse quantity
+	q, err := strconv.Atoi(amount)
+	if err != nil {
+		c.JSON(400, gin.H{"error": "Invalid quantity"})
+		return
+	}
+
+	// Find product
+	var product models.Product
+	r := initializers.DB.First(&product, productID)
+	if r.Error != nil {
+		c.JSON(400, gin.H{"error": "Invalid product"})
+		return
+	}
+
+	// Find storage
+	var storage models.Storage
+	r = initializers.DB.First(&storage, storageID)
+	if r.Error != nil {
+		c.JSON(400, gin.H{"error": "Invalid storage"})
+		return
+	}
+
+	// Find the stores with the product and storage
+	var store models.Stores
+	r = initializers.DB.Where("product_id = ? AND storage_id = ?", productID, storageID).First(&store)
+
+	// check if there is enough product in the storage
+	if r.Error != nil || store.Amount < q {
+		c.JSON(400, gin.H{"error": "Not enough product in the storage"})
+		return
+	}
+	
+	// update the store
+	if r.Error == nil {
+		store.Amount -= q
+		initializers.DB.Save(&store)
+	}
+
+	usr, _ := c.Get("user")
+
+	remove := models.Removed{
+		Product:  product,
+		Storage:  storage,
+		Amount:   q,
+		User: usr.(models.User),
+	}
+
+	initializers.DB.Create(&remove)
+
+	c.Redirect(302, "/admin/selectWithdrawManufacturer")
 }

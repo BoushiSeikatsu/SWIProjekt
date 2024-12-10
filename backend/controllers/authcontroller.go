@@ -118,6 +118,14 @@ func AdminMiddleware() gin.HandlerFunc {
 			if claims["admin"] == true {
 				c.Set("username", claims["username"])
 				c.Set("admin", claims["admin"])
+				// find user in db
+				var user models.User
+				r := initializers.DB.First(&user, "username = ?", claims["username"])
+				if r.Error != nil {
+					c.Redirect(302, "/login")
+					return
+				}
+				c.Set("user", user)
 				c.Next()
 				return
 			}

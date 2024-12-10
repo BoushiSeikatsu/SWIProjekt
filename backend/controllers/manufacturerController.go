@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CheckIfManufacturerExusts(manufacturerName string) bool {
+func CheckIfManufacturerExists(manufacturerName string) bool {
 	var manufacturer models.Manufacturer
 	r := initializers.DB.First(&manufacturer, "name = ?", manufacturerName)
 	if r.Error != nil {
@@ -26,6 +26,13 @@ func AllManufacturers() []models.Manufacturer {
 	return manufacturers
 }
 
+func GetManufacturerByID(id string) models.Manufacturer {
+	var manufacturer models.Manufacturer
+	initializers.DB.First(&manufacturer, id)
+
+	return manufacturer
+}
+
 func AddManufacturer(c *gin.Context) {
 	manufacturerName := c.PostForm("name")
 
@@ -35,7 +42,7 @@ func AddManufacturer(c *gin.Context) {
 	}
 
 	// check if manufacturer exists
-	if CheckIfManufacturerExusts(manufacturerName) {
+	if CheckIfManufacturerExists(manufacturerName) {
 		c.JSON(400, gin.H{"error": "Manufacturer already exists"})
 		return
 	}

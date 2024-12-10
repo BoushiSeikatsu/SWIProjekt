@@ -127,6 +127,30 @@ func main() {
         admin.GET("/selectSupplyManufacturer", controllers.AdminMiddleware(), func (c *gin.Context) {
             c.HTML(http.StatusOK, "", templatesAdminProduct.AdminSelectSupplyManufacturer(controllers.AllManufacturers()))
         })
+        admin.POST("/selectSupplyManufacturer", controllers.AdminMiddleware(), func (c *gin.Context) {
+            // parse manufacturer id
+            c.Redirect(http.StatusFound, "/admin/selectSupplyProduct/" + c.PostForm("manufacturerSelect"))
+        })
+
+        admin.GET("/selectSupplyProduct/:id", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templatesAdminProduct.AdminSelectSupplyProduct(controllers.GetManufacturerByID(c.Param("id")), controllers.AllProductsByManufacturer(c.Param("id")), controllers.AllStorages()))
+        })
+        admin.POST("/selectSupplyProduct/:id", controllers.AdminMiddleware(), controllers.SupplyProduct)
+    
+        // Product add remove thingies
+        admin.GET("/selectWithdrawManufacturer", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templatesAdminProduct.AdminSelectWithdrawManufacturer(controllers.AllManufacturers()))
+        })
+        admin.POST("/selectWithdrawManufacturer", controllers.AdminMiddleware(), func (c *gin.Context) {
+            // parse manufacturer id
+            c.Redirect(http.StatusFound, "/admin/selectWithdrawProduct/" + c.PostForm("manufacturerSelect"))
+        })
+    
+        admin.GET("/selectWithdrawProduct/:id", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templatesAdminProduct.AdminSelectWithdrawProduct(controllers.GetManufacturerByID(c.Param("id")), controllers.AllProductsByManufacturer(c.Param("id")), controllers.AllStorages()))
+        })
+        admin.POST("/selectWithdrawProduct/:id", controllers.AdminMiddleware(), controllers.WithdrawProduct)
+    
     }
 
 	r.Run(initializers.IP + ":" + initializers.PORT)

@@ -43,7 +43,7 @@ func AdminSelectSupplyManufacturer(manufacrurers []models.Manufacturer) templ.Co
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container setup-container\"><div class=\"setup-form\"><h2 class=\"text-center mb-4\">Select Supply Manufacturer</h2><form action=\"SupplyProduct.html\" method=\"POST\"><div class=\"mb-3\"><label for=\"manufacturerSelect\" class=\"form-label\">Select Manufacturer</label> <select class=\"form-select\" id=\"manufacturerSelect\" required><option value=\"\" disabled selected>Select Manufacturer</option> <option value=\"\" disabled selected>Select Manufacturer</option> ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container setup-container\"><div class=\"setup-form\"><h2 class=\"text-center mb-4\">Select Supply Manufacturer</h2><form method=\"post\"><div class=\"mb-3\"><label for=\"manufacturerSelect\" class=\"form-label\">Select Manufacturer</label> <select class=\"form-select\" id=\"manufacturerSelect\" name=\"manufacturerSelect\" required><option value=\"\" disabled selected>Select Manufacturer</option> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -55,7 +55,7 @@ func AdminSelectSupplyManufacturer(manufacrurers []models.Manufacturer) templ.Co
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatUint(uint64(manufacturer.ID), 10))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/admin/product/adminProductSelectManufacturer.templ`, Line: 135, Col: 90}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/admin/product/adminProductSelectManufacturer.templ`, Line: 134, Col: 90}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -68,7 +68,7 @@ func AdminSelectSupplyManufacturer(manufacrurers []models.Manufacturer) templ.Co
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(manufacturer.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/admin/product/adminProductSelectManufacturer.templ`, Line: 135, Col: 110}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/admin/product/adminProductSelectManufacturer.templ`, Line: 134, Col: 110}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
