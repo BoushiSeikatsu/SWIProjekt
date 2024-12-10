@@ -110,8 +110,8 @@ func main() {
         })
         admin.POST("/addProduct", controllers.AdminMiddleware(), controllers.AddProduct)
 
-        admin.GET("/locateProduct", controllers.AdminMiddleware(), func (c *gin.Context) {
-            c.HTML(http.StatusOK, "", templatesAdminProduct.AdminLocateProduct())
+        admin.GET("/locateProduct/:id", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templatesAdminProduct.AdminLocateProduct(controllers.GetStores(c.Param("id"))))
         })
 
         admin.GET("/updateProduct/:id", controllers.AdminMiddleware(), func (c *gin.Context) {
@@ -151,7 +151,8 @@ func main() {
         })
         admin.POST("/selectWithdrawProduct/:id", controllers.AdminMiddleware(), controllers.WithdrawProduct)
     
-    }
+        admin.GET("/productHistory", controllers.AdminMiddleware(), controllers.ProductHistory)
+}
 
 	r.Run(initializers.IP + ":" + initializers.PORT)
 }

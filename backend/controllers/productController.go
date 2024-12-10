@@ -4,6 +4,7 @@ import (
 	"strconv"
 	"swi-warehouse/initializers"
 	"swi-warehouse/models"
+	templatesAdminProduct "swi-warehouse/templates/admin/product"
 
 	"github.com/gin-gonic/gin"
 )
@@ -272,14 +273,37 @@ func WithdrawProduct(c *gin.Context) {
 
 	usr, _ := c.Get("user")
 
-	remove := models.Removed{
+	remove := models.Added{
 		Product:  product,
 		Storage:  storage,
-		Amount:   q,
+		Amount:   q * -1,
 		User: usr.(models.User),
 	}
 
 	initializers.DB.Create(&remove)
 
 	c.Redirect(302, "/admin/selectWithdrawManufacturer")
+}
+
+func ProductHistory(c *gin.Context) {
+	var history []models.Added
+	r := initializers.DB.Preload("User").Preload("Storage").Preload("Product").Preload("Product.Manufacturer").Find(&history)
+	if r.Error != nil {
+		c.JSON(400, gin.H{"error": "Error fetching history"})
+		return
+	}
+
+	c.HTML(200, "", templatesAdminProduct.AdminProductHistory(history))
+}
+
+
+func GetStores(id string) []models.Stores {
+
+	var stores []models.Stores
+	r := initializers.DB.Preload("Storage").Preload("Product").Where("product_id = ?", id).Find(&stores)
+	if r.Error != nil {
+		return nil
+	}
+
+	return stores
 }

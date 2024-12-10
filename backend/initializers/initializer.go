@@ -24,7 +24,7 @@ func ConnectToDB() {
 
 	DB = db
 
-	DB.AutoMigrate(&models.User{}, &models.Product{}, &models.Manufacturer{}, &models.Added{}, &models.Removed{}, &models.Storage{}, &models.Stores{})
+	DB.AutoMigrate(&models.User{}, &models.Product{}, &models.Manufacturer{}, &models.Added{}, &models.Storage{}, &models.Stores{})
 }
 
 type Configuration struct {

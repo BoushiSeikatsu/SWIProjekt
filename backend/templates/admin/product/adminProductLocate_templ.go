@@ -8,9 +8,13 @@ package templatesAdminProduct
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "swi-warehouse/templates"
+import (
+	"strconv"
+	"swi-warehouse/models"
+	"swi-warehouse/templates"
+)
 
-func AdminLocateProduct() templ.Component {
+func AdminLocateProduct(stores []models.Stores) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -39,7 +43,56 @@ func AdminLocateProduct() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container setup-container\"><div class=\"setup-form\"><div class=\"d-flex align-items-center mb-4\"><a href=\"SearchProducts.html\" class=\"back-arrow position-absolute\"><i class=\"bi bi-arrow-left-circle\"></i></a><h2 class=\"text-center w-100\">Locate <strong>Sample Product</strong></h2></div><div class=\"table-responsive\"><table class=\"table table-bordered table-striped\"><thead class=\"table-dark\"><tr><th>Storage</th><th>Amount</th><th>Unit</th><th style=\"width: 300px;\">Actions</th></tr></thead> <tbody><!-- Placeholder Item --><tr><td>ACX</td><td>23</td><td>piece</td><td><!-- Prefilled Product and Storage + link back arrow in following to this --><a href=\"SupplyProduct.html\"><button class=\"btn btn-success btn-sm me-2\">Supply</button></a> <a href=\"WithdrawProduct.html\"><button class=\"btn btn-danger btn-sm me-2\">Withdraw</button></a></td></tr><!-- Placeholder Item --><tr><td>ACX</td><td>23</td><td>piece</td><td><!-- Prefilled Product and Storage + link back arrow in following to this --><a href=\"SupplyProduct.html\"><button class=\"btn btn-success btn-sm me-2\">Supply</button></a> <a href=\"WithdrawProduct.html\"><button class=\"btn btn-danger btn-sm me-2\">Withdraw</button></a></td></tr><!-- Placeholder Item --><tr><td>ACX</td><td>23</td><td>piece</td><td><!-- Prefilled Product and Storage + link back arrow in following to this --><a href=\"SupplyProduct.html\"><button class=\"btn btn-success btn-sm me-2\">Supply</button></a> <a href=\"WithdrawProduct.html\"><button class=\"btn btn-danger btn-sm me-2\">Withdraw</button></a></td></tr><!-- Placeholder Item --><tr><td>ACX</td><td>23</td><td>piece</td><td><!-- Prefilled Product and Storage + link back arrow in following to this --><a href=\"SupplyProduct.html\"><button class=\"btn btn-success btn-sm me-2\">Supply</button></a> <a href=\"WithdrawProduct.html\"><button class=\"btn btn-danger btn-sm me-2\">Withdraw</button></a></td></tr><!-- Placeholder Item --><tr><td>ACX</td><td>23</td><td>piece</td><td><!-- Prefilled Product and Storage + link back arrow in following to this --><a href=\"SupplyProduct.html\"><button class=\"btn btn-success btn-sm me-2\">Supply</button></a> <a href=\"WithdrawProduct.html\"><button class=\"btn btn-danger btn-sm me-2\">Withdraw</button></a></td></tr><!-- Placeholder Item --><tr><td>ACX</td><td>23</td><td>piece</td><td><!-- Prefilled Product and Storage + link back arrow in following to this --><a href=\"SupplyProduct.html\"><button class=\"btn btn-success btn-sm me-2\">Supply</button></a> <a href=\"WithdrawProduct.html\"><button class=\"btn btn-danger btn-sm me-2\">Withdraw</button></a></td></tr><!-- Placeholder Item --><tr><td>ACX</td><td>23</td><td>piece</td><td><!-- Prefilled Product and Storage + link back arrow in following to this --><a href=\"SupplyProduct.html\"><button class=\"btn btn-success btn-sm me-2\">Supply</button></a> <a href=\"WithdrawProduct.html\"><button class=\"btn btn-danger btn-sm me-2\">Withdraw</button></a></td></tr></tbody></table></div><nav aria-label=\"Inventory pagination\"><ul class=\"pagination\"><li class=\"page-item disabled\"><a class=\"page-link\" href=\"#\" tabindex=\"-1\">Previous</a></li><li class=\"page-item\"><a class=\"page-link\" href=\"#\">1</a></li><li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li><li class=\"page-item\"><a class=\"page-link\" href=\"#\">3</a></li><li class=\"page-item\"><a class=\"page-link\" href=\"#\">Next</a></li></ul></nav></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container setup-container\"><div class=\"setup-form\"><div class=\"d-flex align-items-center mb-4\"><a href=\"SearchProducts.html\" class=\"back-arrow position-absolute\"><i class=\"bi bi-arrow-left-circle\"></i></a><h2 class=\"text-center w-100\">Locate <strong>Sample Product</strong></h2></div><div class=\"table-responsive\"><table class=\"table table-bordered table-striped\"><thead class=\"table-dark\"><tr><th>Storage</th><th>Amount</th><th>Unit</th><th style=\"width: 300px;\">Actions</th></tr></thead> <tbody>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, store := range stores {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<tr><td>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var2 string
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(store.Storage.Name)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/admin/product/adminProductLocate.templ`, Line: 147, Col: 51}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(store.Amount))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/admin/product/adminProductLocate.templ`, Line: 148, Col: 59}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(store.Product.Unit)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/admin/product/adminProductLocate.templ`, Line: 149, Col: 51}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td></td></tr>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</tbody></table></div><nav aria-label=\"Inventory pagination\"><ul class=\"pagination\"><li class=\"page-item disabled\"><a class=\"page-link\" href=\"#\" tabindex=\"-1\">Previous</a></li><li class=\"page-item\"><a class=\"page-link\" href=\"#\">1</a></li><li class=\"page-item\"><a class=\"page-link\" href=\"#\">2</a></li><li class=\"page-item\"><a class=\"page-link\" href=\"#\">3</a></li><li class=\"page-item\"><a class=\"page-link\" href=\"#\">Next</a></li></ul></nav></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
