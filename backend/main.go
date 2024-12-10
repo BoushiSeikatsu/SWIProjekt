@@ -122,6 +122,11 @@ func main() {
         admin.GET("/searchProducts", controllers.AdminMiddleware(), func (c *gin.Context) {
             c.HTML(http.StatusOK, "", templatesAdminProduct.AdminSearchProduct(controllers.AllProducts()))
         })
+
+        // Product add remove thingies
+        admin.GET("/selectSupplyManufacturer", controllers.AdminMiddleware(), func (c *gin.Context) {
+            c.HTML(http.StatusOK, "", templatesAdminProduct.AdminSelectSupplyManufacturer(controllers.AllManufacturers()))
+        })
     }
 
 	r.Run(initializers.IP + ":" + initializers.PORT)
